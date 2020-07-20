@@ -55,7 +55,7 @@ if env == 'dev':
 	app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databases.sqlite3'
 else:
 	app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE
-	app.config['DEBUG'] = False
+	app.config['DEBUG'] = True
 
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
