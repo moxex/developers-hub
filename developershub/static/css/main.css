@@ -10,6 +10,16 @@ a:hover {
 	text-decoration: none;
 }
 
+.square-lg {
+	width: 165px !important;
+	height: 165px !important;
+}
+
+.square-sm {
+	width: 25px !important;
+	height: 25px !important;
+}
+
 .active {
 	color: #bf3939 !important;
 }
