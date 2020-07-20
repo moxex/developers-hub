@@ -1,0 +1,102 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+	<div style="height: 100vh;" class="container">
+		<div class="row h-100">
+		    <div class="col-sm-12 my-auto card p-3">
+
+		    	<!-- Header Logo-->
+		    	<div class="text-center mb-1">
+	    			<h1 class="font-weight-500 logo">Developers <span class="text-danger">Hub</span></h1>
+	    		</div>
+
+		    	<div class="card p-3 text-center">
+		    		<h3 class="font-weight-400">Confirm your <span class="text-danger">email address</span></h3>
+		    		<small class="text-muted">We have sent a code your email</small>
+
+		    		<hr>
+
+		    		<form method="POST" class="w-50 mx-auto">
+		    			<!-- Code Input -->
+		    			<div class="form-group">
+		    				<input id="confInput" type="number" name="code" placeholder="12345" class="form-control text-center" onkeydown="return isNumber()" maxlength="5">
+		    			</div>
+		    			
+		    			<!-- Confirm Button -->
+		    			<div class="form-group">
+		    				<button class="btn btn-danger form-control">Confirm</button>
+		    			</div>
+		    		</form>
+
+		    		<!-- If the user didnt receive any email -->
+		    		<form id="emailAgain" method="POST">
+		    			<div class="loading"><span class="fa fa-spinner fa-spin"></span></div>
+
+		    			<p class="font-weight-300 success"><span class="fa fa-check text-danger"></span> Sent Success! Check your email again</p>
+
+	    				<button class="btn btn-link text-danger button" type="submit"><small>Didn't receive an email?<small></small></button>
+	    			</form>
+		    	</div>
+
+		    	<p class="text-center text-muted mt-1"><small>To complete your account registration we must ensure that you're a human so we can avoid spam</small></p>
+
+		    	<p class="text-center"><small ><a class="text-danger" href="{{ url_for('logout') }}">Confirm Later</a></small></p>
+
+		    	<!-- Flash Messages -->
+				{% with messages = get_flashed_messages(with_categories=true) %}
+					{% if messages%}
+						{% for category, message in messages %}
+							<div class="alert alert-danger rounded text-center text-danger p-3 font-weight-bold"><span class="{{ category }}"></span>{{ message }}</div>
+						{% endfor %}
+					{% endif %}
+				{% endwith %}
+		    </div>
+		</div>
+	</div>
+
+{% endblock content %}
+
+
+{% block script %}
+
+	<script type="text/javascript">
+		function isNumber(evt) {
+		    evt = (evt) ? evt : window.event;
+		    var charCode = (evt.which) ? evt.which : evt.keyCode;
+		    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+		        return false;
+		    }
+
+		    return true;
+		}
+
+
+		const form = document.querySelector("#emailAgain");
+		const successMessage = document.querySelector(".success");
+		const loadingIcon = document.querySelector(".loading");
+		const sendButton = document.querySelector(".button");
+
+		successMessage.style.display = "none";
+		loadingIcon.style.display = "none";
+
+		form.addEventListener("submit", sendEmail);
+
+		function sendEmail(e) {
+			loadingIcon.style.display = "block";
+			sendButton.style.display = "none"
+			
+			$.ajax ({
+				url: "{{url_for('email_again')}}",
+				cache: false,
+				success: function() {
+					loadingIcon.style.display = "none";
+					successMessage.style.display = "block";
+				}
+			});
+
+			e.preventDefault();
+		}
+
+	</script>
+
+{% endblock script %}

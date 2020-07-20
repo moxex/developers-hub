@@ -1,0 +1,184 @@
+body {
+	font-family: 'Poppins', sans-serif;
+}
+
+p {
+	white-space: pre-line;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+.active {
+	color: #bf3939 !important;
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
+.cursor-pointer:hover {
+	color: #bf3939 !important;
+}
+
+
+/* Font Weights */
+.font-weight-200 {
+	font-weight: 200;
+}
+
+.font-weight-300 {
+	font-weight: 300;
+}
+
+.font-weight-400 {
+	font-weight: 400;
+}
+
+.font-weight-500 {
+	font-weight: 500;
+}
+
+.font-weight-600 {
+	font-weight: 600;
+}
+
+.font-weight-700 {
+	font-weight: 700;
+}
+
+
+.font-weight-800 {
+	font-weight: 800;
+}
+
+.font-weight-900 {
+	font-weight: 900;
+}
+
+/* end Font Weight */
+
+
+.bg-dark {
+	background-color: #1a1a1a !important;
+}
+
+.text-dark {
+	color: #1a1a1a !important;
+}
+
+.text-danger {
+	color: #bf3939 !important;
+}
+
+.btn-outline-dark:hover {
+	background-color: #1a1a1a !important;
+}
+
+.nav-link:hover {
+	color: #bf3939 !important;
+}
+
+.bg-remove {
+	background: none !important;
+	border: none;
+}
+
+.bg-remove:focus {
+	outline: none !important;
+}
+
+.profile-header-bg {
+	height:250px;
+}
+
+.profile-page li {
+	margin-bottom: 8px;
+}
+
+.link-hover:hover {
+	color:  #bf3939 !important;
+}
+
+input:disabled {
+	border: solid #bf3939 1px !important;
+}
+
+/* Remove Arrows In Input Type Number */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.dropdown-item:hover {
+	color: #bf3939 !important;
+	background: none;
+}
+
+/* Profile Settings */
+.p-settings p {
+	margin: 0 !important;
+}
+
+.p-settings a {
+	cursor: pointer !important;
+}
+
+.fs16 {
+	font-size: 16px;
+}
+
+.fs {
+	font-size: 10px;
+}
+
+.g-recaptcha {
+	display: inline-block;
+}
+
+.post-actions i {
+	transition: all 0.1s ease-in-out;
+}
+
+.post-actions i:hover {
+	color: #bf3939 !important;
+}
+
+/* Profile */
+@media only screen and (max-width: 767px) {
+	.profile-header-bg {
+		height: 360px;
+	}
+
+	.profile-photo-wrapper {
+		width: 100%;
+	}
+
+	.profile-photo {
+		text-align: center;
+	}
+
+	.profile-name-wrapper {
+		width: 100%;
+		margin-left: 0 !important;
+	}
+
+	.profile-name, .job-type {
+		text-align: center !important;
+	}
+
+}
+
+@media only screen and (min-width: 575px) {
+	.ml-sm-2 {
+		margin-left: 10px;
+	}
+}

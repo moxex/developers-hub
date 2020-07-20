@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+	
+	<!-- To make content vertically centered -->
+	<div style="height: 100vh;" class="container">
+		<div class="row h-100">
+		    <div class="col-sm-12 my-auto">
+		    	<div class="mx-auto w-75 card p-4">
+
+		    		<!-- Header Logo-->
+		    		<div class="text-center animate__animated animate__fadeIn">
+		    			<h1 class="font-weight-500 logo">Developers <span class="text-danger">Hub</span></h1>
+		    		
+		    			<hr class="mt-4">
+		    		</div>
+
+		    		<!-- Form -->
+					<form method="POST">	
+
+						<!-- Username Input -->
+						<div class="form-group">
+							<label>Username: </label>
+							<input type="text" name="username" class="form-control" placeholder="Username" required="">
+						</div>
+
+						<!-- Password Input -->
+						<div class="form-group">
+							<label>Password: </label>
+							<input type="password" name="password" class="form-control" placeholder="Password" required="">
+							<small class=""><a class="text-danger" href="{{ url_for('forgot_password') }}">Forgot Password?</a></small>
+						</div>
+
+						<!-- Login Button -->
+						<button class="form-control btn btn-danger mt-3">Login</button>
+
+						<hr>
+
+						<p class="text-center mb-4"><small><a class="text-danger" href="{{ url_for('register') }}">Don't have an account?</a></small></p>
+					</form>
+
+					<!-- Flash Messages -->
+					{% with messages = get_flashed_messages(with_categories=true) %}
+						{% if messages%}
+							{% for category, message in messages %}
+								<div class="alert alert-danger rounded text-center text-danger p-3 font-weight-bold"><span class="{{ category }}"></span>{{ message }}</div>
+							{% endfor %}
+						{% endif %}
+					{% endwith %}
+		    	</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}

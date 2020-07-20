@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+	<div class="container">
+		<h3 class="mt-3 border-bottom">Notifications</h3>
+
+		{% for notif in notifs.items %}
+			<div class="card p-3 mt-2">
+				<a href="{{ url_for('post_detail', id=notif.post_id) }}" class="mb-0 text-danger">{{ notif.notif_desc}} </a>
+			</div>
+		{% endfor %}
+		<div class="text-center">
+				{% for page_num in notifs.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=4) %}
+					{% if page_num %}
+						{% if notifs.page == page_num %}
+						<a class="btn btn-secondary mb-4 mt-2" href="{{ url_for('notifications', page=page_num) }}">{{ page_num }}</a>
+						{% else %}
+						<a class="btn btn-outline-secondary mb-4 mt-2" href="{{ url_for('notifications', page=page_num) }}">{{ page_num }}</a>
+						{% endif %}
+					{% else %}
+						...
+					{% endif %}
+				{% endfor %}
+			</div>
+
+	</div>
+
+{% endblock content %}

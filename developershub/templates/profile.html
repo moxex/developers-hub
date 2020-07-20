@@ -1,0 +1,169 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+	{% if user.confirmed and user %}
+
+		<div class="bg-dark profile-header-bg">
+			<div class="container pt-5">
+				<div  class="float-left profile-photo-wrapper">
+					<div class="profile-photo">
+						<img width="165px" class="img-fluid rounded-circle" src="https://developershub-files.s3.us-east-2.amazonaws.com/{{ user.image }}">
+					</div>
+					
+				</div>
+				<div  class="float-left text-light ml-4 profile-name-wrapper">
+					<div class="profile-name">
+						<h1 class="text-danger mt-3 font-weight-600">{{user.fname}} {{ user.lname }}</h1>
+					<hr class="bg-light">
+					<h4 class="text-left font-weight-400 job-type">{{ user.profession }}</h4>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid profile-page">
+			<div class="row">
+				<div style="background-color: #ededed;" class="col-lg-4">
+					<div class="container p-4">
+						<!-- About Me -->
+						<h4 class="font-weight-500 text-danger border-bottom border-danger mb-3">About Me</h4>
+
+						<p class="font-italic font-weight-300">{{ user.aboutme }}</p>
+
+						<br>
+
+						<!-- Contact Information -->
+						<h4 class="font-weight-500 text-danger border-bottom border-danger  mb-3">Contact Information</h4>
+						<ul class="list-unstyled font-italic">
+							<li class="font-weight-300"><span class="fa fa-phone text-danger"></span> {{ user.phone }}</li>
+							<li class="font-weight-300"><span class="fa fa-envelope text-danger"></span> {{ user.email }}</li>
+							<li class="font-weight-300"><span class="fa fa-map-marker text-danger"></span> {{ user.location }}</li>
+						</ul>
+
+						<br>
+
+						<!-- Skills -->
+						<h4 class="font-weight-500 text-danger border-bottom border-danger  mb-3">Skills</h4>
+						<ul class="list-group list-unstyled font-italic">
+							{% for skill in user.skills %}
+								<li class="font-weight-300">{{ skill.skill }} <span class="badge">{{ skill.skillExp }}</span></li>
+							{% endfor %}
+						</ul>
+
+						<br>
+
+						<!-- Accounts -->
+						<h4 class="font-weight-500 text-danger border-bottom border-danger  mb-3">Accounts</h4>
+						<ul class="list-unstyled font-italic">
+							<li class="font-weight-300"><span class="fab fa-facebook-square text-danger" ></span> {{ user.facebook }}</li>
+							<li class="font-weight-300"><span class="fab fa-github text-danger" ></span> {{ user.github }}</li>
+							<li class="font-weight-300"><span class="fab fa-linkedin text-danger" ></span> {{ user.linkedin }}</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg">
+					<div class="container p-4">
+						<!-- Experience -->
+						<h4 class="font-weight-500 text-danger border-bottom border-danger mb-3">Experience/Projects</h4>
+						{% for exp in user.experiences %}
+							<h5 class="font-weight-400">{{ exp.title }} - {{ exp.job }}</h5>
+							<p class="mb-2 text-muted font-italic font-weight-300">{{ exp.description }}</p>
+							<hr>
+						{% endfor %}
+
+						<h4 class="font-weight-500 text-danger border-bottom border-danger mb-3 mt-5">Education</h4>
+						{% for educ in user.education %}
+							<h5 class="font-weight-400">{{ educ.school }} | <span class="font-weight-300">{{ educ.fromDate }} - {{ educ.toDate }}</span></h5>
+							<p class="mb-2 text-muted font-italic font-weight-300">{{ educ.description }}</p>
+							<hr>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+	{% else %}
+		<div style="height: 100vh;" class="container">
+			<div class="row h-100">
+		    	<div class="col-sm-12 my-auto">
+		    		<div class="w-75 mx-auto text-center">
+		    			<!-- header Logo -->
+			    		<div class="text-center">
+			    			<h1 class="font-weight-500"><img width="35px" src="{{ url_for('static', filename='images/icon.png') }}"> Developers <span class="text-danger">Hub</span></h1>
+			    		
+			    			<hr class="mt-4">
+			    		</div>
+
+		    			<h2 class="text-danger font-weight-500">USER NOT FOUND</h2>
+		    			<p class="font-weight-300">Sorry, it seems that we can't find the user that you were looking for.</p>
+
+		    			<hr class="mt-4">
+
+		    			<a class="btn btn-outline-dark form-control" href="{{ url_for('home') }}">Go Back</a>
+		    		</div>
+		    	</div>
+		    </div>
+		</div>
+	{% endif%}
+
+	<!-- LOGIN NOW MODAL -->
+	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title">Please 
+						<span class="text-danger">Login</span>
+					</h5>
+
+					<button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+
+					<span aria-hidden="true">&times;</span>
+
+					</button>
+				</div>
+				<div class="modal-body p-4">
+					<form method="POST">
+						<div class="form-group">
+							<label>Username</label>
+							<input type="text" name="username" class="form-control" placeholder="Username">
+						</div>
+						<div class="form-group">
+							<label>Password</label>
+							<input type="password" name="password" class="form-control" placeholder="Password">
+							<a class="text-danger" href=""><small>Forgot password?</small></a>
+						</div>
+						<div class="form-group text-center">
+							<button class="btn btn-danger form-control">Login</button>
+						</div>
+					</form>
+					<hr>
+
+					<div class="text-center">
+						<a class="text-danger" href="{{ url_for('register') }}">Don't have an account?</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+
+{% block script %}
+	
+	{% if not session['user'] %}
+	<script type="text/javascript">
+		
+		function showLogin() {
+			$("#loginModal").modal("show");
+		}
+
+		setTimeout(showLogin, 4000)
+		
+	</script>
+	{% else %}
+	{% endif %}
+
+{% endblock script %}

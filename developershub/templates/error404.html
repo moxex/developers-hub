@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+	<div style="height: 100vh;" class="container">
+		<div class="row h-100">
+		    <div class="col-sm-12 my-auto">
+		    	<div class="w-75 mx-auto text-center">
+	    			<!-- header Logo -->
+		    		<div class="text-center">
+		    			<h1 class="font-weight-500"><img width="35px" src="{{ url_for('static', filename='images/icon.png') }}"> Developers <span class="text-danger">Hub</span></h1>
+		    		
+		    			<hr class="mt-4">
+		    		</div>
+
+	    			<h2 class="text-danger font-weight-500">PAGE NOT FOUND</h2>
+	    			<p class="font-weight-300">Sorry, it seems that we can't find the page that you were looking for.</p>
+
+	    			<hr class="mt-4">
+
+	    			<a class="btn btn-outline-dark form-control" href="{{ url_for('profile', username=session['user']) }}">Go Back</a>
+	    		</div>
+		    </div>
+		</div>
+	</div>
+
+{% endblock content %}

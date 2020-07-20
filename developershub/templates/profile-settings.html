@@ -1,0 +1,452 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+	<div class="container-fluid">
+		<div class="container p-3 p-settings">
+			
+			<h3 class="font-weight-600">Profile Settings</h3>
+			<hr class="m-0 bg-secondary border">
+
+			<br>
+
+			<div class="card p-3">
+				<h5 class="border-bottom">
+					Change Profile Picture
+				</h5>
+				<form method="POST" enctype="multipart/form-data">
+					<div class="form-group">
+						<input type="file" name="picture" class="mt-2" accept="image/*">
+					</div>
+					<div class="form-group text-right">
+						<button class="btn btn-danger">Upload</button>
+					</div>
+				</form>
+			</div>
+
+			<br>
+
+			<div class="card p-3">
+				<!-- basic information -->
+				<h5 class="border-bottom">
+					Basic Information
+					<a class="fs16 fas fa-pencil-alt text-danger" data-toggle="modal" data-target="#jobModal"></a>
+				</h5>
+
+				<p><span class="font-weight-500">Name: </span><span class="text-muted">{{ user.fname }} {{ user.lname }}</span></p>
+				<p><span class="font-weight-500">Username: </span><span class="text-muted">{{ user.username }}</span></p>
+				<p><span class="font-weight-500">Email: </span><span class="text-muted">{{ user.email }}</span></p>
+
+				<p><span class="font-weight-500">Job: </span>{{ user.profession }}</p>
+				<!-- end basic information -->
+			</div>
+
+			<br>
+
+			<div class="card p-3">
+				<!-- about me -->
+				<h5 class="border-bottom">
+					About Me 
+					<a class="fs16 fas fa-pencil-alt text-danger" data-toggle="modal" data-target="#aboutmeModal"></a>
+				</h5>
+
+				<p>{{ user.aboutme }}</p>
+				<!-- end about me -->
+			</div>
+
+			<br>
+
+			<div class="card p-3">	
+				<!-- contact information -->
+				<h5 class="border-bottom">
+					Contact Information
+					<a class="fs16 fas fa-pencil-alt text-danger" data-toggle="modal" data-target="#contactModal"></a>
+				</h5>
+
+				<p><span class="font-weight-500">Phone Number: </span>{{ user.phone }}</p>
+				<p><span class="font-weight-500">Location: </span>{{ user.location }}</p>
+				<!-- end contact information -->
+			</div>
+
+			<br>
+
+			<div class="card p-3">
+				<!-- Skills -->
+				<h5 class="border-bottom">
+					Skills
+					<a class="fs16 fas fa-pencil-alt text-danger" data-toggle="modal" data-target="#skillModal"></a>
+				</h5>
+				<ul class="list-unstyled">
+					{% for skill in user.skills %}
+						<li class="font-weight-300">
+							{{ skill.skill }} <span class="badge">{{ skill.skillExp }}</span> 
+							<a class="remove" href="{{ url_for('remove_skill', id=skill.id) }}">
+								<span class="fa fa-trash fs text-danger"></span>
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+
+			<br>
+
+			<div class="card p-3">
+				<!-- Accounts -->
+				<h5 class="border-bottom">
+					Accounts
+					<a class="fs16 fas fa-pencil-alt text-danger" data-toggle="modal" data-target="#accountsModal"></a>
+				</h5>
+
+				<p><span class="font-weight-500">Facebook: </span>{{ user.facebook }}</p>
+				<p><span class="font-weight-500">Github: </span>{{ user.github }}</p>
+				<p><span class="font-weight-500">Linkedin: </span>{{ user.linkedin }}</p>
+			</div>
+
+			<br>
+
+			<div class="card p-3">
+			<!-- Experience/Projects -->
+				<h5 class="border-bottom">
+					Experience/Projects
+					<a class="fs16 fas fa-pencil-alt text-danger" data-toggle="modal" data-target="#experienceModal"></a>
+				</h5>
+
+				{% for exp in user.experiences %}
+					<h6 class="font-weight-500">{{ exp.title }} - {{ exp.job }} 
+						<a class="remove" href="{{ url_for('remove_exp', id=exp.id) }}">
+							<span class="fa fa-trash fs text-danger"></span>
+						</a>
+					</h6>
+					<p class="text-muted font-italic font-weight-300">{{ exp.description }}</p>
+					<hr>
+				{% endfor %}
+			</div>
+		
+			<br>
+
+			<div class="card p-3">
+				<!-- Education -->
+				<h5 class="border-bottom">
+					Education
+					<a class="fs16 fas fa-pencil-alt text-danger" data-toggle="modal" data-target="#educationModal"></a>
+				</h5>
+
+				{% for educ in user.education %}
+					<h6 class="font-weight-500">{{ educ.school }} | <span class="font-weight-300">{{ educ.fromDate }} - {{ educ.toDate }}</span>
+						<a class="remove" href="{{ url_for('remove_educ', id=educ.id) }}">
+							<span class="fa fa-trash fs text-danger"></span>
+						</a>
+					</h6>
+					<p class="text-muted font-italic font-weight-300">{{ educ.description }}</p>
+					<hr>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- ------MODALS------ -->
+
+	<!-- JOB MODAL -->
+	<div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title">Profession</h5>
+
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+					<span aria-hidden="true">&times;</span>
+
+					</button>
+				</div>
+				<form method="POST">
+					<div class="modal-body">
+						<label>Enter New Profession</label>
+						<input type="text" name="profession" class="form-control" required="" placeholder="Profession" value="{{ user.profession }}">
+					</div>
+
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-danger">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- ABOUT ME MODAL -->
+	<div class="modal fade" id="aboutmeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title">About Me</h5>
+
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+					<span aria-hidden="true">&times;</span>
+
+					</button>
+				</div>
+				<form method="POST">
+					<div class="modal-body">
+						<label>Write a paragraph about yourself</label>
+						<textarea type="text" name="aboutme" class="form-control" required="" placeholder="Write a paragraph about yourself" rows="7">{{ user.aboutme }}</textarea>
+					</div>
+
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-danger">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- CONTACT MODAL -->
+	<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title">Contact Information</h5>
+
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+					<span aria-hidden="true">&times;</span>
+
+					</button>
+				</div>
+				<form method="POST">
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Phone Number</label>
+							<input type="text" name="phone" class="form-control" required="" placeholder="09123456789" value="{{ user.phone }}">
+						</div>
+
+						<div class="form-group">
+							<label>Location</label>
+							<input type="text" name="location" class="form-control" required="" placeholder="Your Location" value="{{ user.location }}">
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-danger">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- SKILL MODAL -->
+	<div class="modal fade" id="skillModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title">Add Skill</h5>
+
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+					<span aria-hidden="true">&times;</span>
+
+					</button>
+				</div>
+				<form method="POST" class="addForm">
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Skill</label>
+							<input type="text" name="skill" class="form-control" required="" placeholder="Skill">
+						</div>
+
+						<div class="form-group">
+							<div class="input-group mb-3">
+							  <select class="custom-select" name="skillExp" id="inputGroupSelect01">
+							    <option selected>Choose...</option>
+							    <option value="Beginner">Beginner</option>
+							    <option value="Intermediate">Intermediate</option>
+							    <option value="Advanced">Advanced</option>
+							  </select>
+							</div>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<div class="loading"><span class="fa fa-spinner fa-spin"></span></div>
+
+						<button class="btn btn-danger addButton">Add Skill</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- ACCOUNTS MODAL -->
+	<div class="modal fade" id="accountsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title">Accounts</h5>
+
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+					<span aria-hidden="true">&times;</span>
+
+					</button>
+				</div>
+				<form method="POST" class="add-skill">
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Facebook</label>
+							<input type="text" name="facebook" value="{{ user.facebook }}" placeholder="Facebook" class="form-control">
+						</div>
+
+						<div class="form-group">
+							<label>github</label>
+							<input type="text" name="github" value="{{ user.github }}" placeholder="Github" class="form-control">
+						</div>
+
+						<div class="form-group">
+							<label>linkedin</label>
+							<input type="text" name="linkedin" value="{{ user.linkedin }}" placeholder="Linkedin" class="form-control">
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button class="btn btn-danger addButton">Save Changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Experience MODAL -->
+	<div class="modal fade" id="experienceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title">Add Experience</h5>
+
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+					<span aria-hidden="true">&times;</span>
+
+					</button>
+				</div>
+				<form method="POST" class="addForm">
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Title</label>
+							<input type="text" name="title" class="form-control" required="" placeholder="Title">
+						</div>
+
+						<div class="form-group">
+							<label>Job</label>
+							<input type="text" name="job" class="form-control" required="" placeholder="Job">
+						</div>
+
+						<div class="form-group">
+							<label>Description</label>
+							<textarea name="description" placeholder="Description" required="" class="form-control" rows="6"></textarea>
+						</div>
+						
+					</div>
+
+					<div class="modal-footer">
+						<div class="loading"><span class="fa fa-spinner fa-spin"></span></div>
+
+						<button class="btn btn-danger addButton">Add Experience</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- EDUCATION MODAL -->
+	<div class="modal fade" id="educationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title">Add Education</h5>
+
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+					<span aria-hidden="true">&times;</span>
+
+					</button>
+				</div>
+				<form method="POST" class="addForm">
+					<div class="modal-body">
+						<div class="form-group">
+							<label>School</label>
+							<input type="text" name="school" class="form-control" required="" placeholder="School">
+						</div>
+
+						<div class="form-group">
+							<div class="input-group">
+								<input type="text" name="fromdate" class="form-control" required="" placeholder="From">
+								<input type="text" name="todate" class="form-control ml-3" required="" placeholder="To">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label>Description</label>
+							<textarea name="description" placeholder="Description" required="" class="form-control" rows="6"></textarea>
+						</div>
+						
+					</div>
+
+					<div class="modal-footer">
+						<div class="loading"><span class="fa fa-spinner fa-spin"></span></div>
+
+						<button class="btn btn-danger addButton">Add Education</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+
+{% block script %}
+
+<script type="text/javascript">
+		const addForm = document.querySelectorAll(".addForm");
+		const addButton = document.querySelectorAll(".addButton");
+		const closeButton = document.querySelectorAll(".closeButton");
+		const loading = document.querySelectorAll(".loading");
+		const remove = document.querySelectorAll(".remove");
+
+		for (var x = 0 ; x <= addForm.length ; x++ ) {
+			loading[x].style.display = "none";
+			addForm[x].addEventListener("submit", hideButton); 
+		}
+
+		for (var x = 0 ; x <= remove.length ; x++) {
+			remove[x].addEventListener("click", hideRemove);
+		}
+
+		function hideRemove(e) {
+			for (var x = 0 ; x <= remove.length ; x++) {
+				remove[x].style.display = "none";
+			}
+		}
+
+		function hideButton(e){
+			for (var x = 0 ; x <= addForm.length ; x++ ) {
+				closeButton[x].style.display = "none";
+
+				addButton[x].style.display = "none";
+
+				loading[x].style.display = "block";
+			}
+		}
+
+
+	</script>
+
+{% endblock script %}

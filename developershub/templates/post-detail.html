@@ -1,0 +1,160 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+	<div class="container">
+		<div class="card pt-3 pl-3 pr-3 pb-1 mt-2">
+			<!-- user -->
+			<div class="d-flex flex-row">
+				<div>
+					<img width="25px" class="rounded-circle" src="https://developershub-files.s3.us-east-2.amazonaws.com/{{ post.user.image }}">
+				</div>
+
+				<div class="">
+					<div class="ml-2">
+						<a href="{{ url_for('profile', username=post.user.username) }}">
+							<small class="text-muted link-hover">{{ post.user.fname }} {{ post.user.lname }}</small>
+						</a>
+					</div>
+				</div>
+				<div>
+					
+				</div>
+			</div>
+
+			<!-- Title -->
+			<a class="mb-0 mt-2 font-weight-600">
+				<h5 class="text-dark">{{ post.title }}</h5>
+			</a>
+
+			<!-- Description -->
+			<p style="white-space: pre-line" class="mb-0"><small>{{ post.description }}</small></p>
+
+			<div class="row text-center mt-3 post-actions">
+				<div class="col">
+					<form method="POST">
+						<input class="d-none" type="" name="like" value="{{ post.id }}">
+
+						<!-- Like Count -->
+						<small class="text-muted">
+						{{ post.likes|length }}
+						</small>
+
+						<!-- Like Button -->
+						{% if user.likes | intersect(post.likes) %}
+						<button class="btn text-danger btn-link" type="submit"><i class="fa fa-thumbs-up"></i></button>
+						{% else %}
+						<button class="btn text-muted btn-link" type="submit"><i class="fa fa-thumbs-up"></i></button>
+						{% endif %}
+					</form>
+				</div>
+				<div class="col">
+					<form method="POST" class="dislike">
+						<input class="d-none" type="" name="dislike" value="{{ post.id }}">
+
+						<!-- Dislike Count -->
+						<small>
+						{{ post.dislikes|length }}
+						</small>
+
+						<!-- Dislike Button -->
+						{% if user.dislikes | intersect(post.dislikes) %}
+						<button class="btn text-danger btn-link" type="submit"><i class="fa fa-thumbs-down dislike-button"></i></button>
+						{% else %}
+						<button class="btn text-muted btn-link" type="submit"><i class="fa fa-thumbs-down dislike-button"></i></button>
+						{% endif %}
+					</form>
+				</div>
+				<div class="col">
+					<small>
+						{{ post.comments|length }}
+					</small>
+					<!-- Comment -->
+					<button class="btn btn-link text-muted comment-button"><i class="fa fa-comments"></i></button>
+				</div>
+			</div>
+		</div>
+
+		<div class="card p-3 mt-1">
+			<form method="POST" class="comment-form">
+				<div class="form-group">
+					<h5>Add <span class="text-danger">Comment</span>: </h5>
+					<input class="d-none" type="text" name="qid" value="{{ post.id }}">
+					<textarea minlength="3" class="form-control" rows="3" name="comment" placeholder="comment here"></textarea>
+				</div>
+				
+				<div class="form-group text-right">
+					<button class="btn btn-danger">Comment</button>
+				</div>
+
+				<hr class="border">
+			</form>
+
+			<h5 class="mb-3">Comments: </h5>
+			{% if not comments.items %}
+				<p class="text-center border-bottom">There are no comments.</p>
+			{% else %}
+			{% for comment in comments.items %}
+				<div class="d-flex flex-row">
+					<div>
+						<img width="25px" class="rounded-circle" src="https://developershub-files.s3.us-east-2.amazonaws.com/{{ comment.user.image }}">
+					</div>
+
+					<div class="">
+						<div class="ml-2">
+							<a href="{{ url_for('profile', username=post.user.username) }}">
+								<small class="text-muted link-hover">{{ comment.user.fname }} {{ comment.user.lname }}</small>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="mt-1 ml-4">
+						<small style="white-space: pre-line">- {{ comment.comment }}</small>
+					</div>
+				</div>
+				<hr>
+			{% endfor %}
+			<div class="text-center">
+				{% for page_num in comments.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=4) %}
+					{% if page_num %}
+						{% if comments.page == page_num %}
+						<a class="btn btn-secondary mb-4 mt-2" href="{{ url_for('post_detail', page=page_num, id=post.id) }}">{{ page_num }}</a>
+						{% else %}
+						<a class="btn btn-outline-secondary mb-4 mt-2" href="{{ url_for('post_detail', id=post.id, page=page_num) }}">{{ page_num }}</a>
+						{% endif %}
+					{% else %}
+						...
+					{% endif %}
+				{% endfor %}
+			</div>
+			{% endif %}
+
+		</div>
+
+	</div>
+
+{% endblock content %}
+
+{% block script %}
+
+	<script type="text/javascript">
+		const form_comment = document.querySelector('.comment-form');
+		const comment_button = document.querySelector('.comment-button');
+
+		comment_button.addEventListener("click", showForm);
+
+		form_comment.style.display = "none";
+
+		function showForm(e) {
+			if(form_comment.style.display === "none") {
+				form_comment.style.display = "block";
+				comment_button.firstElementChild.style.color = "#bf3939"
+			} else {
+				form_comment.style.display = "none";
+				comment_button.firstElementChild.style.color = "#6c757d";
+			}
+		}
+
+	</script>
+
+{% endblock script %}
