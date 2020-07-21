@@ -96,12 +96,12 @@
 			{% for comment in comments.items %}
 				<div class="d-flex flex-row">
 					<div>
-						<img width="25px" class="rounded-circle" src="https://developershub-files.s3.us-east-2.amazonaws.com/{{ comment.user.image }}">
+						<img class="square-sm rounded-circle" src="https://developershub-files.s3.us-east-2.amazonaws.com/{{ comment.user.image }}">
 					</div>
 
 					<div class="">
 						<div class="ml-2">
-							<a href="{{ url_for('profile', username=post.user.username) }}">
+							<a href="{{ url_for('profile', username=comment.user.username) }}">
 								<small class="text-muted link-hover">{{ comment.user.fname }} {{ comment.user.lname }}</small>
 							</a>
 						</div>
