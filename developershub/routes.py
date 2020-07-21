@@ -75,7 +75,7 @@ def register():
 					hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
 					# Creating the user, and saving it to the database
-					new_user = Users(fname, lname, username, email, hashed_password, confirmation_number)
+					new_user = Users(fname, lname, username.lower(), email, hashed_password, confirmation_number)
 					db.session.add(new_user)
 					db.session.commit()
 
