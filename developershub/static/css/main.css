@@ -11,8 +11,8 @@ a:hover {
 }
 
 .square-lg {
-	width: 165px !important;
-	height: 165px !important;
+	width: 162px !important;
+	height: 162px !important;
 }
 
 .square-sm {
@@ -181,6 +181,10 @@ input[type=number] {
 		margin-left: 0 !important;
 	}
 
+	.profile-name-wrapper h1 {
+		font-size: 33px !important;
+	}
+
 	.profile-name, .job-type {
 		text-align: center !important;
 	}
@@ -199,6 +203,12 @@ input[type=number] {
 	}
 	.w-sm {
 		width: 100% !important;
+	}
+}
+
+@media only screen and (max-width: 341px) {
+	.profile-header-bg {
+		height: 390px;
 	}
 }
 
