@@ -192,3 +192,13 @@ input[type=number] {
 		margin-left: 10px;
 	}
 }
+
+@media only screen and (max-width: 518px) {
+	.container {
+		width: 100% !important;
+	}
+	.w-sm {
+		width: 100% !important;
+	}
+}
+

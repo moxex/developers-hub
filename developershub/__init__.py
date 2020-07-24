@@ -48,7 +48,7 @@ s3 = boto3.resource(
    aws_secret_access_key=S3_SECRET)	
 
 # Environment Settings
-env = 'prod'
+env = 'dev'
 
 if env == 'dev':
 	app.config['DEBUG'] = True

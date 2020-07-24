@@ -6,7 +6,7 @@
 	<div style="height: 100vh;" class="container">
 		<div class="row h-100">
 		    <div class="col-sm-12 my-auto">
-		    	<div class="mx-auto w-75 card p-4 shadow-lg">
+		    	<div class="mx-auto w-75 card p-4 shadow-lg w-sm">
 
 		    		<!-- Header Logo-->
 		    		<div class="text-center animate__animated animate__fadeIn">
@@ -76,3 +76,18 @@
 
 	<script src='https://www.google.com/recaptcha/api.js'></script>
 {% endblock content %}
+
+{% block script %}
+
+<script type="text/javascript">
+	var width = $('.g-recaptcha').parent().width();
+	if (width < 302) {
+		var scale = width / 302;
+		$('.g-recaptcha').css('transform', 'scale(' + scale + ')');
+		$('.g-recaptcha').css('-webkit-transform', 'scale(' + scale + ')');
+		$('.g-recaptcha').css('transform-origin', '0 0');
+		$('.g-recaptcha').css('-webkit-transform-origin', '0 0');
+	}
+</script>
+
+{% endblock script %}

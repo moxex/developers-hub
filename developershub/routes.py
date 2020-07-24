@@ -17,6 +17,7 @@ from random import randint
 
 whooshalchemy.whoosh_index(app, Questions)
 
+@app.route('/', methods=['POST', 'GET'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	if 'user' in session:
@@ -46,7 +47,7 @@ def login():
 		else:
 			flash("USERNAME NOT FOUND")
 
-	return render_template('login.html', title='Login', no_nav=True, login='active')
+	return render_template('user/login.html', title='Login', no_nav=True, login='active')
 
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -93,7 +94,7 @@ def register():
 		else:
 			flash('ReCaptcha Failed')
 
-	return render_template('register.html', title='Register', no_nav=True, register='active')
+	return render_template('user/register.html', title='Register', no_nav=True, register='active')
 
 # If the user doesnt receive an email
 @app.route('/account/confirmation/email/try-again')
@@ -167,7 +168,7 @@ def profile(username):
 			flash("USERNAME NOT FOUND")
 			return redirect(url_for('login'))
 
-	return render_template('profile.html', user=userParameter, profile='active')
+	return render_template('user/profile.html', user=userParameter, profile='active')
 
 
 @app.route('/profile/settings', methods=['GET', 'POST'])
@@ -179,7 +180,7 @@ def profile_settings():
 	# Handle all POST form requests
 	FormRequest.requests(query)
 
-	return render_template('profile-settings.html', user=query)
+	return render_template('user/profile-settings.html', user=query)
 
 
 @app.route('/remove/skill/<id>')
@@ -224,7 +225,6 @@ def remove_educ(id):
 	return redirect(request.referrer)
 
 
-@app.route('/', methods=['POST', 'GET'])
 @app.route('/home', methods=['POST', 'GET'])
 @login_required
 def home():
@@ -306,7 +306,7 @@ def home():
 
 		return redirect(request.referrer)
 
-	return render_template('home.html', user=currentUser, home='active',questions=questions)
+	return render_template('post/home.html', user=currentUser, home='active',questions=questions)
 
 @app.route('/post/<id>', methods=['GET', 'POST'])
 @login_required
@@ -390,14 +390,14 @@ def post_detail(id):
 
 		return redirect(request.referrer)
 
-	return render_template('post-detail.html', post=post, user=currentUser, comments=comments)
+	return render_template('post/post-detail.html', post=post, user=currentUser, comments=comments)
 
 @app.route('/search')
 def search():
 	questions = Questions.query.whoosh_search(request.args.get('query')).all()
 	users = Users.query.whoosh_search(request.args.get('query')).all()
 
-	return render_template('search.html', questions=questions, users=users)
+	return render_template('post/search.html', questions=questions, users=users)
 
 @app.route('/notifications')
 @login_required
@@ -405,7 +405,7 @@ def notifications():
 	page = request.args.get('page', 1, type=int)
 	currentUser = Users.query.filter_by(username=session['user']).first()
 	notifications = Notifications.query.filter_by(user_id=currentUser.id).order_by(Notifications.id.desc()).paginate(page=page, per_page=10)
-	return render_template('notifications.html', notifications='active', notifs=notifications)
+	return render_template('post/notifications.html', notifications='active', notifs=notifications)
 
 @app.route('/forgot-password/success/new-password/<code>/<user>', methods=['POST', 'GET'])
 def new_password(code, user):
