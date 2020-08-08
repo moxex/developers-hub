@@ -1,0 +1,2 @@
+# Developers Hub
+A web application for developers or any IT related person to communicate effectively wherever they are. Like, asking how to solve a certain problem or sharing their thoughts and ideas. Their profile can also serve as their portfolio website since it is designed like a resume.
